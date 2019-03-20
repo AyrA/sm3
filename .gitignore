@@ -1,2 +1,4 @@
-# Build result
+# Build results
 *.exe
+*.res
+*.o
