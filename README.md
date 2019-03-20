@@ -13,15 +13,19 @@ See [The SM3 Cryptographic Hash Function draft-oscca-cfrg-sm3-01](https://tools.
 
 Hashing a file
 
-    SM3.exe < SomeFile
+	SM3.exe < SomeFile
 
 Hashing command output
 
-    SomeCommand | SM3.exe
+	SomeCommand | SM3.exe
+
+Hashing a string
+
+	SM3.exe "Test String"
 
 ## Building
 
-    gcc main.c -o main.exe
+	gcc main.c -o main.exe
 
 ## License
 
