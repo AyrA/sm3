@@ -25,8 +25,29 @@ Hashing a string
 
 ## Building
 
-	gcc main.c -o main.exe
+This project is written in Dev-C++,
+the easiest way of building is opening it there and build from the menu.
+
+Manually building is possible after editing the makefile with the correct paths,
+then using the command below.
+
+	mingw32-make.exe -f Makefile.win clean all
+
+You likely have to edit the inclusion paths for the libraries to match your system first.
+
+To manually build from scratch:
+
+	::Main function
+	gcc.exe -c main.c -o main.o
+	::SM3 Library
+	gcc.exe -c sm3.c -o sm3.o
+	::Properties file
+	windres.exe -i SM3_private.rc -F pe-i386 --input-format=rc -o SM3_private.res -O coff
+	::Build executable
+	gcc.exe main.o sm3.o SM3_private.res -o SM3.exe -static-libgcc -s
 
 ## License
 
-See LICENSE file
+Licensed under the MIT license
+
+See LICENSE file for details
