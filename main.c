@@ -5,7 +5,12 @@ int main(int argc,char* argv[]){
 		processStdin();
 	}
 	else if(strcmp(argv[1],HELP_ARG)==0){
-		puts(HELP_TEXT);
+		puts(
+			HELP_TEXT LF
+			LF
+			LICENSE LF
+			LF
+			DISCLAIMER);
 	}
 	else {
 		processString(argv[1],strlen(argv[1]));
