@@ -1,11 +1,43 @@
-#include <stdio.h>
+#include "main.h"
 
-#include "sm3.c"
+int main(int argc,char* argv[]){
+	if(argc<2){
+		processStdin();
+	}
+	else if(strcmp(argv[1],HELP_ARG)==0){
+		puts(HELP_TEXT);
+	}
+	else {
+		processString(argv[1],strlen(argv[1]));
+	}
+	return 0;
+}
 
-#define BUFSIZE (2048)
+void dumpHash(const unsigned char hash[SM3_DIGEST_LENGTH]){
+	//Dump hexadecimal hash
+	for (int i=0;i<SM3_DIGEST_LENGTH;i++)
+	{
+    	printf("%02X",hash[i]);
+	}
+	//Print Newline
+	puts("");
+}
 
-int main(){
-	int i;
+void processString(const char* str,const int length){
+	//Output hash
+	unsigned char result[SM3_DIGEST_LENGTH];
+	//Hash function context
+	sm3_ctx_t ctx;
+
+	//Compute SM3
+	sm3_init(&ctx);
+	sm3_update(&ctx,str,length);
+	sm3_final(&ctx,result);
+	//Done
+	dumpHash(result);
+}
+
+void processStdin(){
 	//Input buffer
 	unsigned char buffer[BUFSIZE];
 	//Output hash
@@ -15,22 +47,18 @@ int main(){
 
 	//Initialize SM3
 	sm3_init(&ctx);
-	
-	//Open stdin in binary mode
-	freopen(NULL, "rb", stdin);
-	
+
+	//Open stdin in binary mode if running windows
+	#if _WIN32
+	freopen(NULL,"rb",stdin);
+	#endif
+
 	//Pipe input to hash function
 	while(!feof(stdin)){
-		sm3_update(&ctx, buffer,fread(buffer,1,BUFSIZE,stdin));
+		sm3_update(&ctx,buffer,fread(buffer,1,BUFSIZE,stdin));
 	}
 	//Done
-	sm3_final(&ctx, result);
-	//Dump hexadecimal hash
-	for (i = 0; i < SM3_DIGEST_LENGTH; i++)
-	{
-    	printf("%02X", result[i]);
-	}
-	//Print Newline
-	puts("");
+	sm3_final(&ctx,result);
+	dumpHash(result);
 }
 
