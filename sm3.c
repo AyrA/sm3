@@ -2,7 +2,6 @@
 #include "byteorder.h"
 #include <string.h>
 
-
 void sm3_init(sm3_ctx_t *ctx)
 {
 	ctx->digest[0] = 0x7380166F;
@@ -48,7 +47,7 @@ void sm3_update(sm3_ctx_t *ctx, const unsigned char* data, size_t data_len)
 
 void sm3_final(sm3_ctx_t *ctx, unsigned char *digest)
 {
-	int i;
+	unsigned int i;
 	uint32_t *pdigest = (uint32_t *)digest;
 	uint32_t *count = (uint32_t *)(ctx->block + SM3_BLOCK_SIZE - 8);
 		
