@@ -36,7 +36,7 @@ void processString(const char* str,const int length){
 
 	//Compute SM3
 	sm3_init(&ctx);
-	sm3_update(&ctx,str,length);
+	sm3_update(&ctx,(unsigned char*)str,length);
 	sm3_final(&ctx,result);
 	//Done
 	dumpHash(result);
@@ -55,8 +55,8 @@ void processStdin(){
 
 	//Open stdin in binary mode if running windows
 	#if _WIN32
-	freopen(NULL,"rb",stdin);
-	#endif
+	_setmode(_fileno(stdin), _O_BINARY);
+	#endif /* defined(WIN32) */
 
 	//Pipe input to hash function
 	while(!feof(stdin)){

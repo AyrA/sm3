@@ -4,6 +4,11 @@
 //Standard includes
 #include <stdio.h>
 
+#if _WIN32
+#include <io.h>
+#include <fcntl.h>
+#endif /* defined(WIN32) */
+
 //Local includes
 #include "sm3.h"
 
